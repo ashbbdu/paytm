@@ -7,8 +7,8 @@ export const authOptions = {
       CredentialsProvider({
           name: 'Credentials',
           credentials: {
-            phone: { label: "Phone number", type: "text", placeholder: "1231231231", required: true },
-            password: { label: "Password", type: "password", required: true }
+            phone: { label: "Phone number", type: "text", placeholder: "Enter your phone number", required: true },
+            password: { label: "Password", type: "password",placeholder: "Enter your password" , required: true }
           },
           // TODO: User credentials type from next-aut
           async authorize(credentials: any) {
@@ -19,6 +19,8 @@ export const authOptions = {
                     number: credentials.phone
                 }
             });
+            
+            console.log(existingUser , "existing password")
 
             if (existingUser) {
                 const passwordValidation = await bcrypt.compare(credentials.password, existingUser.password);
@@ -29,7 +31,7 @@ export const authOptions = {
                         email: existingUser.number
                     }
                 }
-                return null;
+                return null
             }
 
             try {
@@ -43,7 +45,8 @@ export const authOptions = {
                 return {
                     id: user.id.toString(),
                     name: user.name,
-                    email: user.number
+                    email: user.number,
+                  
                 }
             } catch(e) {
                 console.error(e);
@@ -53,7 +56,7 @@ export const authOptions = {
           },
         })
     ],
-    secret: process.env.JWT_SECRET || "secret",
+    secret: process.env.NEXTAUTH_SECRET || "secret",
     callbacks: {
         // TODO: can u fix the type here? Using any is bad
         async session({ token, session }: any) {
