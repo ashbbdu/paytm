@@ -53,3 +53,6 @@ model Balance {
   locked Int
   user   User @relation(fields: [userId], references: [id])
 }
+
+
+// on a wider canvas
